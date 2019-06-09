@@ -1,0 +1,50 @@
+templates:
+  deluge_basic:
+    deluge:
+      path: /media/HardDrive/Torrents/
+      host: 192.168.1.50
+      port: 58846
+      username: djj211
+      password: M00$h!3754
+
+tasks:
+  Dan:
+    template: deluge_basic
+    deluge:
+      main_file_only: yes
+      label: FlexgetTV
+    no_entries_ok: yes
+    content_filter:
+      reject:
+        - '*.rar'
+        - '*.r00'
+        - '*.r01'
+        - 'password.txt'
+    configure_series:
+      settings:
+        target: 720p+
+        timeframe: 1 days
+        propers: no
+        upgrade: yes
+        set:
+          movedone: /media/HardDrive/Videos/Television/{{series_name}}/Season {{series_season}}/
+          content_filename: "{{series_name}} - {{series_id}}"
+      from:
+        csv:
+          url: 'file:///root/.flexget/shows.csv'
+          values:
+            title: 1
+            url: 1    
+    discover:
+      what:
+        - next_series_episodes:
+            from_start: yes
+      from:
+        - rarbg:
+            category:
+              - x264 720p
+              - x264 1080p
+        - 1337x: yes
+        - limetorrents:
+            category: tv
+#        - piratebay: yes
