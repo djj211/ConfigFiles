@@ -2,10 +2,10 @@ templates:
   deluge_basic:
     deluge:
       path: /media/HardDrive/Torrents/
-      host: 192.168.1.50
-      port: 58846
-      username: djj211
-      password: M00$h!3754
+      host:
+      port:
+      username:
+      password:
 
 tasks:
   Dan:
@@ -27,7 +27,7 @@ tasks:
         propers: no
         upgrade: yes
         set:
-          movedone: /media/HardDrive/Videos/Television/{{series_name}}/Season {{series_season}}/
+          move_completed_path: /media/HardDrive/Videos/Television/{{series_name}}/Season {{series_season}}/
           content_filename: "{{series_name}} - {{series_id}}"
       from:
         csv:
@@ -41,10 +41,13 @@ tasks:
             from_start: yes
       from:
         - rarbg:
-            category:
-              - x264 720p
-              - x264 1080p
+            sorted_by: seeders
+            use_tvdb: True
+            category: [18, 41, 49]
+#               18 = TV Episodes, 41 = TV HD Episodes, 49 = TV UHD Episodes
         - 1337x: yes
         - limetorrents:
             category: tv
+            order_by: seeds
 #        - piratebay: yes
+
