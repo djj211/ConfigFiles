@@ -34,7 +34,7 @@ tasks:
           url: 'file:///root/.flexget/shows.csv'
           values:
             title: 1
-            url: 1    
+            url: 1   
     discover:
       what:
         - next_series_episodes:
