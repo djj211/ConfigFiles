@@ -17,12 +17,12 @@
 -A INPUT -m state --state RELATED,ESTABLISHED -j AS0_ACCEPT
 -A INPUT -i lo -j AS0_ACCEPT
 -A INPUT -m mark --mark 0x2000000/0x2000000 -j AS0_IN_PRE
--A INPUT -d 192.168.1.50/32 -p tcp -m state --state NEW -m tcp --dport 915 -j AS0_ACCEPT
--A INPUT -d 192.168.1.50/32 -p tcp -m state --state NEW -m tcp --dport 914 -j AS0_ACCEPT
--A INPUT -d 192.168.1.50/32 -p udp -m state --state NEW -m udp --dport 917 -j AS0_ACCEPT
--A INPUT -d 192.168.1.50/32 -p udp -m state --state NEW -m udp --dport 916 -j AS0_ACCEPT
+-A INPUT -d 192.168.1.117/32 -p tcp -m state --state NEW -m tcp --dport 915 -j AS0_ACCEPT
+-A INPUT -d 192.168.1.117/32 -p tcp -m state --state NEW -m tcp --dport 914 -j AS0_ACCEPT
+-A INPUT -d 192.168.1.117/32 -p udp -m state --state NEW -m udp --dport 917 -j AS0_ACCEPT
+-A INPUT -d 192.168.1.117/32 -p udp -m state --state NEW -m udp --dport 916 -j AS0_ACCEPT
 -A INPUT -m state --state RELATED,ESTABLISHED -j AS0_WEBACCEPT
--A INPUT -d 192.168.1.50/32 -p tcp -m state --state NEW -m tcp --dport 943 -j AS0_WEBACCEPT
+-A INPUT -d 192.168.1.117/32 -p tcp -m state --state NEW -m tcp --dport 943 -j AS0_WEBACCEPT
 -A INPUT -i lo -j ACCEPT
 -A INPUT -s 192.168.1.0/24 -j ACCEPT
 -A FORWARD -m state --state RELATED,ESTABLISHED -j AS0_ACCEPT
@@ -95,17 +95,17 @@ COMMIT
 :AS0_NAT_PRE_REL_EST - [0:0]
 :AS0_NAT_TEST - [0:0]
 -A PREROUTING -m state --state RELATED,ESTABLISHED -j AS0_NAT_PRE_REL_EST
--A PREROUTING -d 192.168.1.50/32 -p udp -m udp --dport 1199 -m state --state NEW -j AS0_DPFWD_UDP
--A PREROUTING -d 192.168.1.50/32 -p tcp -m tcp --dport 445 -m state --state NEW -j AS0_DPFWD_TCP
+-A PREROUTING -d 192.168.1.117/32 -p udp -m udp --dport 1199 -m state --state NEW -j AS0_DPFWD_UDP
+-A PREROUTING -d 192.168.1.117/32 -p tcp -m tcp --dport 445 -m state --state NEW -j AS0_DPFWD_TCP
 -A POSTROUTING -m state --state RELATED,ESTABLISHED -j AS0_NAT_POST_REL_EST
 -A POSTROUTING -m mark --mark 0x2000000/0x2000000 -j AS0_NAT_PRE
 -A POSTROUTING -o tun0 -j MASQUERADE
 -A POSTROUTING -o tun0 -j MASQUERADE
--A AS0_DPFWD_TCP -p tcp -j DNAT --to-destination 192.168.1.50:914
+-A AS0_DPFWD_TCP -p tcp -j DNAT --to-destination 192.168.1.117:914
 -A AS0_DPFWD_TCP -j ACCEPT
--A AS0_DPFWD_UDP -p udp -j DNAT --to-destination 192.168.1.50:916
+-A AS0_DPFWD_UDP -p udp -j DNAT --to-destination 192.168.1.117:916
 -A AS0_DPFWD_UDP -j ACCEPT
--A AS0_NAT -o eth2 -j SNAT --to-source 192.168.1.50
+-A AS0_NAT -o eth2 -j SNAT --to-source 192.168.1.117
 -A AS0_NAT -o tun0 -j SNAT --to-source 10.10.10.6
 -A AS0_NAT -j ACCEPT
 -A AS0_NAT_POST_REL_EST -j ACCEPT
